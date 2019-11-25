@@ -30,3 +30,19 @@
   :defer t
   :after (projectile)
   :config (helm-projectile-on))
+
+(use-package magit
+  :ensure t
+  :defer t
+  :init
+  (bind-key "C-c g" 'magit-status)
+  (defun display-buffer-full-screen (buffer alist)
+    (delete-other-windows)
+    (set-window-dedicated-p nil nil)                                                                                                     
+    (set-window-buffer nil buffer)                                                                                                       
+    (get-buffer-window buffer))
+  (setq magit-display-buffer-function                                                                                                    
+      (lambda (buffer)                                                                                                                 
+        (if magit-display-buffer-noselect                                                                                              
+            (magit-display-buffer-traditional buffer)                                                                                  
+          (display-buffer buffer '(display-buffer-full-screen))))))
